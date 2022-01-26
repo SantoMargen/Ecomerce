@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Order, { foreignKey: "CustomerId" });
     }
   }
   User.init(
@@ -98,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      phonenumber: {
+      phoneNumber: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {

@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Product.belongsTo(models.Category, { foreignKey: "CategoryId" });
+      Product.belongsTo(models.User, { foreignKey: "AuthorId" });
+      Product.hasMany(models.OrderDetail, { foreignKey: "ProductId" });
     }
   }
   Product.init(
@@ -18,22 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notEmpty: {
-            msg: "name is required",
+            msg: "Name is required",
           },
           notNull: {
-            msg: "name is required",
-          },
-        },
-      },
-      description: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: "description is required",
-          },
-          notNull: {
-            msg: "description is required",
+            msg: "Name is required",
           },
         },
       },
@@ -49,6 +39,49 @@ module.exports = (sequelize, DataTypes) => {
           },
           isUrl: {
             msg: "must be url",
+          },
+        },
+      },
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Price is required",
+          },
+          min: {
+            args: [1],
+            msg: "Price minimal 1",
+          },
+        },
+      },
+      CategoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "CategoryId is required",
+          },
+        },
+      },
+      AuthorId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "AuthorId is required",
+          },
+        },
+      },
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: "Description is required",
+          },
+          notNull: {
+            msg: "Description is required",
           },
         },
       },
